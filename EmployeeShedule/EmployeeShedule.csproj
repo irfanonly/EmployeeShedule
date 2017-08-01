@@ -382,6 +382,10 @@
     <Content Include="css\TableTools.css" />
     <Content Include="css\typeahead.js-bootstrap.css" />
     <Content Include="css\_notes\dwsync.xml" />
+    <Content Include="DB\DB.ldf">
+      <DependentUpon>DB.mdf</DependentUpon>
+    </Content>
+    <Content Include="DB\DB.mdf" />
     <Content Include="Emodel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Emodel.edmx</DependentUpon>
