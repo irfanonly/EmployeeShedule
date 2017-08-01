@@ -1,0 +1,153 @@
+﻿@using Microsoft.AspNet.Identity
+@model IQueryable<SafeMode.Certificate>
+@{
+    ViewBag.Title = "Index";
+    ViewBag.CertVer = "active";
+}
+
+<div class="page_title">
+    <div class="container"> 
+        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+@Html.AntiForgeryToken()
+
+
+    <div class="title"><h1>Welcome @User.Identity.GetUserName()!  <small>(<a style="text-align:right;" href="javascript:document.getElementById('logoutForm').submit()">Log off</a>)</small></h1></div>
+    <div class="pagenation">&nbsp;@Html.ActionLink("Home", "Index", "Home") <i>/</i> Certificate Verification</div>
+    @*<a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>*@
+
+    }
+        
+    </div>
+</div><!-- end page title -->
+
+<div class="clearfix"></div>
+
+<!-- Contant
+======================================= -->
+
+<div class="container">
+
+
+
+    <!-- left sidebar starts -->
+    <div class="left_sidebar">
+       
+
+
+        <div class="sidebar_widget">
+
+            <div class="accrodation">
+
+                <h2>You Have <i>@Model.Count() Certificates</i></h2>
+                <div><h5>Browse certificate here</h5></div>
+
+                <!-- section 1 -->
+                <span class="acc-trigger active"><a href="#">Indivitual certificates</a></span>
+                <div class="acc-container">
+                    <div class="content">
+                        @{ 
+                            var indCert = Model.Where(x => x.CertType.name == "Individual");
+                        }
+                        <ul>
+                            @foreach (var cert in indCert)
+                            {
+                                <li><a href="~/ViewerJS/#../images/certificates/@(cert.id)_@cert.urlname" target="frame">@cert.name</a></li>
+                            }
+
+                            @if (indCert.Count() == 0)
+                            {
+                                <li>No Indivitual type certificate found</li>
+                            }
+
+                        </ul>
+                        @*There are many variations of passages of Lorem Ipsum available but the majority have suffered alteration in some form, by injected humour, or randomised words which looks Aenean tempus nunc sitamet nulla aliquet volutpat curabitur semper aliquam lorem eu euismod accumsan  accumsan mollis elementum sem ultrices egestas.*@
+                    </div>
+                </div>
+
+                <!-- section 2 -->
+                <span class="acc-trigger"><a href="#">Equipment certificates</a></span>
+                <div class="acc-container">
+                    <div class="content">
+                        @{
+                            var equCert = Model.Where(x => x.CertType.name == "Equipment");
+                        }
+                        <ul>
+                            @foreach (var cert in equCert)
+                            {
+                                <li><a target="frame" href="~/images/certificates/@(cert.id)_@cert.urlname">@cert.name</a></li>
+                            }
+
+                            @if (equCert.Count() == 0)
+                            {
+                                <li>No Equipment type certificate found</li>
+                            }
+
+                        </ul>
+                        @*There are many variations of but the majority have suffered alteration in some form, by injected humour, or randomised words which looks. Lorem Ipsum is simply dummy text of the printing and typesetting indust been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into.  Lorem Ipsum is simply dummy text of the printing and typesetting indust been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into.*@
+                    </div>
+                </div>
+
+                <!-- section 3 -->
+                <span class="acc-trigger"><a href="#">Other certificates</a></span>
+                <div class="acc-container">
+                    <div class="content">
+                        @{
+                            var otherCert = Model.Where(x => x.CertType.name == "Other");
+                        }
+                        <ul>
+                            @foreach (var cert in otherCert)
+                            {
+                                <li><a target="frame"  href="~/images/certificates/@(cert.id)_@cert.urlname">@cert.name</a></li>
+                            }
+
+                            @if (otherCert.Count() == 0)
+                            {
+                                <li>No Other type certificate found</li>
+                            }
+
+                        </ul>
+                        @*There are many variations of but the majority have suffered alteration in some form, by injected humour, or randomised words which looks. Lorem Ipsum is simply dummy text of the printing and typesetting indust been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into.  Lorem Ipsum is simply dummy text of the printing and typesetting indust been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into.*@
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div><!-- end section -->
+
+
+
+
+
+
+
+
+
+    </div><!-- end left side bar -->
+
+    <div class="content_right">
+
+        <h2>Click your certificate for preview!</h2>
+
+
+
+        <div class="clearfix mar_top2"></div>
+
+    @{ 
+        var cert2 = indCert.FirstOrDefault();
+    }
+
+        <iframe id="frame" name="frame" src="/User/Empty" width='600' height='400' allowfullscreen webkitallowfullscreen></iframe>
+
+        @*<a href="#" class="but_download"><i class="fa fa-download fa-lg"></i> Download</a>*@
+        <!-- end more features section -->
+
+
+    </div><!-- end content right side -->
+
+</div><!-- end content area -->
+
+
+    <!-- accordion -->
+<script type="text/javascript" src="~/js/accordion/custom.js"></script>

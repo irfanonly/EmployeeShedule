@@ -1,0 +1,172 @@
+﻿
+@{
+    ViewBag.Title = "Edit";
+}
+
+@using Microsoft.AspNet.Identity
+@model SafeMode.Models.UserEditVM
+
+@{
+    ViewBag.Admin = "active";
+    ViewBag.tab1 = "tab1";
+    ViewBag.CertVer = "active";
+}
+
+
+<style>
+    ul.tabs2 {
+        margin: 0;
+        padding: 0;
+        float: left;
+        list-style: none;
+        min-height: 45px;
+        width: 100%;
+        background: #00018c;
+    }
+
+    html ul.tabs2 li.active, html ul.tabs2 li.active a, html ul.tabs2 li.active a:hover {
+        color: #454545;
+        background-color: #f0f0f0;
+        height: 44px;
+    }
+
+    ul.tabs2 li a {
+        text-decoration: none;
+        color: #fff;
+        display: block;
+        font-size: 14px;
+        outline: none;
+        cursor: pointer;
+        text-align: center;
+        padding: 0px 15px 0px 10px;
+        background-color: #00018c;
+        font-family: 'Open Sans' !important;
+        font-weight: normal;
+    }
+
+    ul.tabs2 li {
+        float: left;
+        padding: 0;
+        margin: 0 0 0 0px;
+        min-height: 45px;
+        line-height: 45px;
+        border-left: none;
+        margin-bottom: -1px;
+        overflow: hidden;
+        position: relative;
+        border-right: 1px solid #eee;
+    }
+</style>
+<div class="page_title">
+    <div class="container">
+        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+        {
+            @Html.AntiForgeryToken()
+
+
+            <div class="title"><h1>Welcome @User.Identity.GetUserName()!  <small>(<a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>)</small></h1></div>
+            <div class="pagenation">&nbsp;@Html.ActionLink("Home", "Index", "Home") <i>/</i> Certificate Verification</div>
+            @*<a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>*@
+
+        }
+
+    </div>
+</div><!-- end page title -->
+<!-- Contant
+======================================= -->
+
+
+<div class="container">
+
+    <div class="content_fullwidth">
+
+        @*<h2><strong>Tab</strong> Style One</h2>*@
+
+        <div id="tabs2">
+
+            <ul class="tabs">
+                <li class="active"><a href="#@ViewBag.tab1">Manage Users</a></li>
+                <li class=""><a href="@Url.Content("/ManageCert/Index")">Manage Certificates</a></li>
+                <li class=""><a href="@Url.Content("/ManageCal/Index")">Manage Calender</a></li>
+                <li class=""><a href="@Url.Content("/Admin/Profile")">My Profile</a></li>
+
+            </ul><!-- /# end tab links -->
+            <div class="tab-container">
+
+                <div id="@ViewBag.tab1" class="tab-content">
+
+                    @*<div class="clearfix divider_line8"></div>*@
+                    <div class="one_full">
+
+                        <h2><strong>Edit</strong> User</h2>
+
+                        <div class="success">
+
+                            @ViewBag.SuccessMsg
+                        </div>
+
+                        <div class="error">
+
+                            @ViewBag.ErrorMsg
+                        </div>
+                        @using (Html.BeginForm("Edit", "ManageUser", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            //if (ViewBag.Error == "True")
+                            //{
+                            @Html.ValidationSummary(false, "", new { @class = "error" })
+                            @*}*@
+
+                            <fieldset>
+
+                                <label for="email" class="blocklabel">Username : @Html.DisplayFor(m => m.UserName, new { @class = "input_bg", @disabled = "disabled" })</label>
+                                <p class=""></p>
+
+                                @Html.HiddenFor(m => m.Id)
+                                <label for="name" class="blocklabel">Name/ Company Name*</label>
+                                <p class="">@Html.TextBoxFor(m => m.Name, new { @class = "input_bg" })</p>
+
+                                <label for="message" class="blocklabel">Email*</label>
+                                <p>@Html.TextBoxFor(m => m.Email, new { @class = "input_bg" })</p>
+
+                                <label for="message" class="blocklabel">Contact No*</label>
+                                <p>@Html.TextBoxFor(m => m.PhoneNumber, new { @class = "input_bg" })</p>
+
+                                @*<p>@Html.Captcha(4)</p>*@
+
+
+                                <p>
+
+                                    <div class="clearfix"></div>
+                                    <br />
+
+                                    <input name="Send" type="submit" value="UPDATE USER" class="comment_submit" />
+                                    <input name="Send" type="button" value="CHANGE PASSWORD" class="comment_submit" onclick="window.location.href = '/ManageUser/ChangePassword/@Model.Id'" />
+                                    <input name="Send" type="button" value="CANCEL" class="comment_submit" onclick="window.location.href = '/ManageUser/'" />
+                                    
+                                </p>
+
+
+                            </fieldset>
+                        }
+
+
+
+
+                    </div>
+
+
+                </div><!-- end tab single section -->
+
+
+            </div>
+
+        </div><!-- end tab -->
+
+        <div class="clearfix divider_line5"></div>
+
+
+    </div>
+
+</div><!-- end content area -->
+

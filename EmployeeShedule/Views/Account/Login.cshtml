@@ -1,0 +1,189 @@
+﻿@using SafeMode.Models
+@model LoginViewModel
+@{
+    Layout = null;
+    ViewBag.Title = "Log in";
+}
+
+@*<div class="row">
+    <div class="col-md-8">
+        <section id="loginForm">
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <h4>Use a local account to log in.</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <div class="checkbox">
+                            @Html.CheckBoxFor(m => m.RememberMe)
+                            @Html.LabelFor(m => m.RememberMe)
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Log in" class="btn btn-default" />
+                    </div>
+                </div>
+                <p>
+                    @Html.ActionLink("Register as a new user", "Register")
+                </p>
+               
+            }
+        </section>
+    </div>
+    <div class="col-md-4">
+        <section id="socialLoginForm">
+            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+        </section>
+    </div>
+</div>*@
+
+
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Admin Section</title>
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8" />
+
+    <link rel="icon" type="image/ico" href="images/favicon.ico" />
+    <!-- Bootstrap -->
+  
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/font-awesome.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/animate.min.css" />
+    <link rel="stylesheet" href="~/css/bootstrap-checkbox.css" />
+
+    <link href="~/css/minoral.css" rel="stylesheet" />
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="brownish-scheme">
+
+
+
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+
+
+
+
+        <!-- Make page fluid -->
+        <div class="row">
+
+
+
+
+
+
+            <!-- Page content -->
+            <div id="content" class="col-md-12 full-page login">
+
+
+                <div class="welcome">
+                    <img src="~/images/logo-big.png" alt=".." class="logo" />
+
+@using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-signin", @id = "form_signin", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <section>
+        <div class="row margin-15">
+            <div class="col-lg-12 col-md-12">
+                @*<asp:Label ID="lbl_info" runat="server" Visible="false"></asp:Label>*@
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                
+            </div>
+        </div>
+        <div class="input-group">
+            @*<input type="text" id="txt_userName" name="txtusername" class="form-control" placeholder="Username.." runat="server" />*@
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Username.." })
+            <div class="input-group-addon"><i class="fa fa-user"></i></div>
+
+            @*Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })*@
+        </div>
+        <div class="input-group">
+            @*<input type="password" id="txt_pass" runat="server" class="form-control" name="txtpassword" placeholder="Password" />*@
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" , @placeholder = "Password" })
+            <div class="input-group-addon"><i class="fa fa-key"></i></div>
+
+            
+            @*@Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })*@
+        </div>
+        <div class="input-group">
+            <input id="contacthidden" type="hidden" name="act" value="adminlogin" />
+            <input type="submit" id="btn_login" name="login" style="vertical-align:middle" value="Login" class="btn btn-success" runat="server" onclick="validate();return" onserverclick="btn_login_ServerClick" />
+
+        </div>
+    </section>
+
+}
+
+                </div>
+                <a href="#" class="log-in hide">Log In<i class="fa fa-arrow-right fa-5x"></i></a>
+            </div>
+            <!-- Page content end -->
+        </div>
+        <!-- Make page fluid-->
+    </div>
+    <!-- Wrap all page content end -->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="~/js/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/run_prettify.js"></script>
+    <script src="~/js/plugins/jquery.nicescroll.min.js"></script>
+    <script src="~/js/plugins/blockui/jquery.blockUI.js"></script>
+    <script src="~/js/minoral.min.js"></script>
+
+    <script>
+        $(function () {
+
+            $('.welcome').addClass('animated bounceIn');
+
+        });
+        //function validate() {
+        //    var txtUserName = $('input[id$=txt_userName]');
+        //    var txtPass = $('input[id$=txt_pass]');
+        //    if (txtUserName.val() == '' || txtUserName.val() == txtUserName.attr('placeholder')) {
+        //        alert("Enter Username");
+        //        return false;
+        //    }
+        //    else if(txtPass.val()=='' || txtPass.val() == txtUserName.attr('placeholder')) {
+        //        alert("Enter Password");
+        //        return false;
+        //    }
+        //    else {
+        //        return true;
+        //    }
+        //}
+    </script>
+</body>
+</html>

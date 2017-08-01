@@ -1,0 +1,102 @@
+﻿
+<!-- Make page fluid -->
+<!-- Fixed navbar -->
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+
+
+
+    <!-- Branding -->
+    <div class="navbar-header col-md-2">
+        <a class="navbar-brand" href="dashboard.php">
+            <strong>ADMIN</strong>
+        </a>
+        <div class="sidebar-collapse">
+            <a href="#">
+                <i class="fa fa-bars"></i>
+            </a>
+        </div>
+    </div>
+    <!-- Branding end -->
+    <!-- .nav-collapse -->
+    <div class="navbar-collapse">
+
+
+
+
+        <!-- Content collapsing at 768px to sidebar -->
+        <div class="collapsing-content">
+ 
+
+            <!-- Quick Actions -->
+            <ul class="nav navbar-nav">
+                <li class="divided">
+                    <a href="#" class="page-refresh"><i class="fa fa-refresh"></i></a>
+                    <span class="divider vertical"></span>
+                </li>
+
+                <li class="dropdown quick-action notifications">
+                    <a class="dropdown-toggle button" data-toggle="dropdown" href="#">
+                        <i class="fa fa-bell"></i>
+                        <span class="overlay-label orange"></span>
+                    </a>
+                    <ul class="dropdown-menu wide arrow orange nopadding">
+                        <li><h1>You have <strong></strong> new notifications</h1></li>
+                        <li>
+                            <a href="#">
+                                <span class="label label-green"><i class="fa fa-user"></i></span>
+
+                        <li><a href="recent_activities.php?s=false">Check all notifications <i class="fa fa-angle-right"></i></a></li>
+                    </ul>
+                </li>
+
+            </ul>
+            <div class="search hide">
+                <input type="text" placeholder="&#61442; Search in dashboard...">
+            </div>
+
+            <div class="user-controls">
+                <ul>
+
+                    <li class="dropdown settings">
+                        <a class="dropdown-toggle options" data-toggle="dropdown" href="#">
+                            <i class="fa fa-cog"></i>
+                        </a>
+
+                        <ul class="dropdown-menu arrow">
+
+                            <li>
+                                <a href="changepassworrd.php"><i class="fa fa-power-off"></i> Change Password</a>
+                            </li>
+                            <li>
+                                <a href="logout.aspx"><i class="fa fa-power-off"></i> Logout</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+            <!-- User Controls end -->
+
+
+
+
+
+        </div>
+
+       @{
+           Html.RenderPartial("_Menu");
+    }
+
+
+
+
+
+    </div>
+    <!--/.nav-collapse -->
+
+
+
+
+
+</div>
+<!-- Fixed navbar end -->

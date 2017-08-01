@@ -1,0 +1,186 @@
+﻿@using Microsoft.AspNet.Identity
+@model PagedList.IPagedList<SafeMode.AspNetUser>
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/overlaypopup.css" rel="stylesheet" />
+<link href="~/Content/myStyle.css" rel="stylesheet" />
+<script src="~/Scripts/popup.js"></script>
+@{
+    ViewBag.Title = "Index";
+    ViewBag.Admin = "active";
+    ViewBag.tab1 = "tab1";
+    ViewBag.CertVer = "active";
+}
+
+<div class="page_title">
+    <div class="container">
+        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+        {
+            @Html.AntiForgeryToken()
+
+
+            <div class="title"><h1>Welcome @User.Identity.GetUserName()!  <small>(<a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>)</small></h1></div>
+            <div class="pagenation">&nbsp;@Html.ActionLink("Home", "Index", "Home") <i>/</i> Certificate Verification</div>
+            @*<a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>*@
+
+        }
+
+    </div>
+</div><!-- end page title -->
+<!-- Contant
+======================================= -->
+
+<div class="container">
+
+    <div class="content_fullwidth">
+
+        @*<h2><strong>Tab</strong> Style One</h2>*@
+
+        <div id="tabs2">
+
+            <ul class="tabs">
+                <li class="active"><a href="#@ViewBag.tab1">Manage Users</a></li>
+                <li class=""><a href="@Url.Content("/ManageCert/Index")">Manage Certificates</a></li>
+                <li class=""><a href="@Url.Content("/ManageCal/Index")">Manage Calender</a></li>
+                <li class=""><a href="@Url.Content("/Admin/Profile")">My Profile</a></li>
+
+            </ul><!-- /# end tab links -->
+            <div class="tab-container">
+
+                <div id="@ViewBag.tab1" class="tab-content">
+
+                    @*<div class="clearfix divider_line8"></div>*@
+                    <div class="one_full">
+
+                        @*<h2><strong>Users</strong> (@Model.Count())</h2>*@
+
+                        <div class="success">
+
+                            @ViewBag.SuccessMsg
+                        </div>
+
+                        <div class="error">
+
+                            @ViewBag.ErrorMsg
+                        </div>
+                        <ul class="list_empty">
+                            @using (Html.BeginForm("Index", "ManageUser", FormMethod.Get, new { id = "form1" })){ 
+                            <li><input class="input_bg" id="username" name="username" placeholder="Search By Name" value="@ViewBag.username" style="width:100%" type="text" /></li>
+                            }
+                           
+                            <li  style="padding-top:5px"><a onclick="$('#form1').submit()" class="but_plus" ><i class="fa fa-search  fa-lg"></i> Search</a> </li>
+                            <li style="padding-top:5px"><a href="/ManageUser/Index" class="but_plus"><i class="fa fa-refresh fa-lg"></i> Reset</a> </li>
+                            <li style="padding-top:5px"><a href="/Account/RegisterUser" class="but_plus"><i class="fa fa-plus fa-lg"></i> Add New User</a> </li>
+                            <li style="padding-top:5px"><a id="big-delete" class="but_plus"><i class="fa fa-minus fa-lg"></i> Delete Selected Users</a> </li>
+                          
+                           
+                        </ul>
+                      
+                       
+                        <div class="table-style">
+                            <table class="table-list">
+                                <tbody>
+                                    <tr>
+                                        <th class="checkbox"></th>
+                                        <th>Name/ Company Name</th>
+                                        <th>Username</th>
+                                        <th>Contact</th>
+                                        <th>Email</th>
+                                        <th></th>
+                                    </tr>
+                                   
+                                    @foreach (var user in Model)
+                                    {
+                                        <tr>
+                                            <td><input type="checkbox"><input id="id" type="hidden" value="@user.Id" /></td>
+                                            <td>@user.Name</td>
+                                            <td>@user.UserName</td>
+                                            <td>@user.PhoneNumber</td>
+                                            <td>@user.Email</td>
+                                            <td>@Html.ActionLink("Edit","Edit",new { id= user.Id })</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div style="text-align:center">
+                            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+                            @Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page }))
+
+                        </div>
+
+                    </div>
+
+                 
+                </div><!-- end tab single section -->
+
+
+            </div>
+
+        </div><!-- end tab -->
+
+        <div class="clearfix divider_line5"></div>
+
+
+    </div>
+
+</div><!-- end content area -->
+
+<div class="overlay-bg"></div>
+
+<div class="overlay-content but_warning_sign popupDeleteMultiple" style="padding:0px;">
+
+
+
+    <div id="DeleteOneInfo" style="padding:7%;text-align:center">
+
+
+        <h3>
+            <i class="fa fa-warning" style="font-size:35px;padding:3px"></i>
+            Do you really want to delete <span id="course-count"></span> item/s?
+        </h3>
+
+        <div class="center">
+            @*<button type="button" id="delete-multiple" class="btn" value="" style="margin-right:4px">Delete</button>*@
+            @*<input type="button" class="btn close-btn" value="Cancel">*@
+            <a id="delete-multiple"  class="but_ok_2"><i class="fa fa-check fa-lg"></i> Ok</a>
+            <a class="but_remove_2 close-btn"><i class="fa fa-times-circle fa-lg"></i> Cancel</a>
+        </div>
+
+
+    </div>
+
+
+
+</div>
+
+<script>
+
+    $('#delete-multiple').click(function () {
+
+        window.location.href = '/ManageUser/Delete/' + $(this).val();
+    });
+    $('#big-delete').click(function () {
+        if ($('input:checkbox:checked').length > 0) {
+            $('#course-count').text($('input:checkbox:checked').length);
+            showPopup('DeleteMultiple');
+            var array = [];
+            var ind = 0;
+            $('input:checkbox:checked').next('#id').each(function (e) {
+
+                array[ind] =   $(this).val();
+                ind++;
+
+            });
+            $('#delete-multiple').val(array.join(','));
+            //console.log(array.join(','));
+        }
+
+    });
+</script>
+
+

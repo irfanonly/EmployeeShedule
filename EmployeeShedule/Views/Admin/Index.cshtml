@@ -1,0 +1,300 @@
+﻿
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+    <!--Contant start-->
+    <!-- breadcrumbs -->
+    <div class="breadcrumbs">
+        <ol class="breadcrumb">
+            <li><a href="dashboard.php"> Dashboard</a></li>
+        </ol>
+    </div>
+    <!-- /breadcrumbs -->
+    <!-- content main container -->
+    <div class="main">
+
+        <script type="text/javascript">
+    $(document).ready(function () {
+
+        var $container = $("#loaddiv");
+        //$container.load("messenger_data.php");
+        var refreshId = setInterval(function () {
+            $container.load('dashboard_data.php');
+
+        }, 3000);
+
+    });
+        </script>
+        <div id="loaddiv">
+            <input type="hidden" value="" name="todaycount" id="todaycount" />
+            <input type="hidden" value="" name="lasstmonthuser" id="lasstmonthuser" />
+            <input type="hidden" value="" name="todaycount_vi" id="todaycount_vi" />
+
+            <input type="hidden" value="" name="tisonline" id="tisonline" />
+            <input type="hidden" value="" name="toaluser_vi" id="toaluser_vi" />
+            <input type="hidden" value="" name="lasstmonthuser_vi" id="lasstmonthuser_vi" />
+
+            <input type="hidden" value="" name="toaluser" id="toaluser" />
+            <input type="hidden" value="" name="inacuser" id="inacuser" />
+            <input type="hidden" value="" name="acuser" id="acuser" />
+
+            <input type="hidden" value="" name="tvopic" id="tvopic" />
+            <input type="hidden" value="" name="tvuser" id="tvuser" />
+            <input type="hidden" value="" name="tvvist" id="tvvist" />
+        </div>
+        <!-- cards -->
+        <!-- row -->
+        <!-- /row -->
+        <div class="row">
+
+            <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+
+
+
+
+                <!-- tile body -->
+                <div class="tile-body">
+                    <div class="row">
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /row -->
+        <!-- row -->
+        <div class="row">
+            <!-- col 6 -->
+            <div class="col-md-8">
+
+
+                <!-- tile -->
+                <section class="tile">
+
+                    <!-- tile header -->
+                    <div class="tile-header transparent">
+                        <%-- <h1><strong>Recent</strong> Activity</h1>--%>
+                        <div class="controls">
+                            <a href="#" class="refresh"><i class="fa fa-refresh"></i></a>
+                            <a href="#" class="remove"><i class="fa fa-times"></i></a>
+                        </div>
+                    </div>
+                    <!-- /tile header -->
+                    <!-- tile body -->
+                    <div class="tile-body tab-content nopadding" id="noti">
+                        <!-- Tab panes -->
+                    </div>
+                    <!-- /tile body -->
+                </section>
+                <!-- /tile -->
+            </div>
+            <!-- /col 6 -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /content container -->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+
+    <script src="js/plugins/jquery.easypiechart.min.js"></script>
+
+    <script src="js/plugins/jquery.animateNumbers.js"></script>
+
+    <script src="js/plugins/flot/jquery.flot.min.js"></script>
+    <script src="js/plugins/flot/jquery.flot.time.min.js"></script>
+    <script src="js/plugins/flot/jquery.flot.selection.min.js"></script>
+    <script src="js/plugins/flot/jquery.flot.animator.min.js"></script>
+    <script src="js/plugins/flot/jquery.flot.orderBars.js"></script>
+
+    <script src="js/plugins/rickshaw/raphael-min.js"></script>
+    <script src="js/plugins/rickshaw/d3.v2.js"></script>
+    <script src="js/plugins/rickshaw/rickshaw.min.js"></script>
+
+    <script src="js/plugins/skycons/skycons.js"></script>
+
+    <script src="js/plugins/jquery.sparkline.min.js"></script>
+
+    <script src="js/plugins/summernote/summernote.min.js"></script>
+
+    <script src="js/plugins/chosen/chosen.jquery.min.js"></script>
+
+    <script src="js/plugins/tabdrop/bootstrap-tabdrop.min.js"></script>
+
+    <script src="js/plugins/morris/morris.min.js"></script>
+
+
+
+    <script>
+        $(function () {
+            // Initialize card flip
+            $('.card.hover').hover(function () {
+                $(this).addClass('flip');
+            }, function () {
+                $(this).removeClass('flip');
+            });
+
+            // Make card front & back side same
+
+            $('.card').each(function () {
+                var front = $('.card .front');
+                var back = $('.card .back');
+                var frontH = front.height();
+                var backH = back.height();
+
+
+
+                if (backH > frontH) {
+                    front.height(backH - 8);
+                }
+            });
+
+            // Initialize tabDrop
+            $('.tabdrop').tabdrop({ text: '<i class="fa fa-th-list"></i>' });
+
+            //generate pie charts
+            $('.easypiechart').easyPieChart();
+
+            //generate actual pie charts
+            $('.pie-chart').easyPieChart();
+
+            //animate numbers on cards
+            $("#users-count").animateNumbers(document.getElementById('todaycount').value);
+            $("#total-count").animateNumbers(document.getElementById('tisonline').value);
+            $("#visits-count").animateNumbers(document.getElementById('todaycount_vi').value);
+
+            $("#tuser12").animateNumbers(document.getElementById('toaluser').value);
+            $("#lastmonth").animateNumbers(document.getElementById('lasstmonthuser').value);
+            $("#tvisits").animateNumbers(document.getElementById('toaluser_vi').value);
+
+            $("#vislastmonth").animateNumbers(document.getElementById('lasstmonthuser_vi').value);
+            $("#tact").animateNumbers(document.getElementById('acuser').value);
+            $("#tinact").animateNumbers(document.getElementById('inacuser').value);
+
+            $("#total-voip").animateNumbers(document.getElementById('tvopic').value);
+            $("#divtvuser").animateNumbers(document.getElementById('tvuser').value);
+            $("#divtvvist").animateNumbers(document.getElementById('tvvist').value);
+
+            $("#orders-count").animateNumbers(Math.round(Math.random() * 100));
+            $("#sales-count").animateNumbers(Math.round(Math.random() * 10000));
+
+
+            //animate numbers with class .animate-number with data-value attribute
+            $(".animate-number").each(function () {
+                var value = $(this).data('value');
+                var duration = $(this).data('animation-duration');
+
+                $(this).animateNumbers(value, true, duration, "linear");
+            });
+
+            //animate progress bars
+            $('.animate-progress-bar').each(function () {
+                var progress = $(this).data('percentage');
+
+                $(this).css('width', progress);
+            })
+
+            //update instance every 5 sec
+            window.setInterval(function () {
+
+                //animate numbers on cards
+                $("#users-count").animateNumbers(document.getElementById('todaycount').value);
+                $("#total-count").animateNumbers(document.getElementById('tisonline').value);
+                $("#visits-count").animateNumbers(document.getElementById('todaycount_vi').value);
+
+                $("#tuser12").animateNumbers(document.getElementById('toaluser').value);
+                $("#lastmonth").animateNumbers(document.getElementById('lasstmonthuser').value);
+                $("#tvisits").animateNumbers(document.getElementById('toaluser_vi').value);
+
+                $("#vislastmonth").animateNumbers(document.getElementById('lasstmonthuser_vi').value);
+                $("#tact").animateNumbers(document.getElementById('acuser').value);
+                $("#tinact").animateNumbers(document.getElementById('inacuser').value);
+                $("#total-voip").animateNumbers(document.getElementById('tvopic').value);
+                $("#divtvuser").animateNumbers(document.getElementById('tvuser').value);
+                $("#divtvvist").animateNumbers(document.getElementById('tvvist').value);
+
+                $('#orders-count').animateNumbers(Math.round(Math.random() * 100));
+                $('#sales-count').animateNumbers(Math.round(Math.random() * 10000));
+
+                //refresh every pie chart
+                $('.easypiechart').each(function () {
+                    $(this).data('easyPieChart').update(Math.floor(100 * Math.random()));
+                });
+
+            }, 5000 * 2);
+
+            //server load rickshaw chart
+            var graph;
+
+            var seriesData = [[], []];
+            var random = new Rickshaw.Fixtures.RandomData(50);
+
+            for (var i = 0; i < 50; i++) {
+                random.addData(seriesData);
+            }
+
+            graph = new Rickshaw.Graph({
+                element: document.querySelector("#serverload-chart"),
+                height: 150,
+                renderer: 'area',
+                series: [
+                  {
+                      data: seriesData[0],
+                      color: '#1693A5',
+                      name: 'File Server'
+                  }, {
+                      data: seriesData[1],
+                      color: '#e2e2e2',
+                      name: 'Mail Server'
+                  }
+                ]
+            });
+
+            var hoverDetail = new Rickshaw.Graph.HoverDetail({
+                graph: graph,
+            });
+
+            setInterval(function () {
+                random.removeData(seriesData);
+                random.addData(seriesData);
+                graph.update();
+
+            }, 1000);
+
+            //sparkline charts
+            $('#projectbar1').sparkline('html', { type: 'bar', barColor: '#22beef', barWidth: 4, height: 20 });
+            $('#projectbar2').sparkline('html', { type: 'bar', barColor: '#cd97eb', barWidth: 4, height: 20 });
+            $('#projectbar3').sparkline('html', { type: 'bar', barColor: '#a2d200', barWidth: 4, height: 20 });
+            $('#projectbar4').sparkline('html', { type: 'bar', barColor: '#ffc100', barWidth: 4, height: 20 });
+            $('#projectbar5').sparkline('html', { type: 'bar', barColor: '#ff4a43', barWidth: 4, height: 20 });
+            $('#projectbar6').sparkline('html', { type: 'bar', barColor: '#a2d200', barWidth: 4, height: 20 });
+
+            //todo's
+            $('#todolist li label').click(function () {
+                $(this).toggleClass('done');
+            });
+
+            //load wysiwyg editor
+            $('#quick-message-content').summernote({
+                height: 158   //set editable area's height
+            });
+
+            //multiselect input
+            $(".chosen-select").chosen({ disable_search_threshold: 10 });
+
+            // Morris donut chart
+            Morris.Donut({
+                element: 'morris-donut-example',
+                data: [
+                  { label: "Download Sales", value: 12 },
+                  { label: "In-Store Sales", value: 30 },
+                  { label: "Mail-Order Sales", value: 20 }
+                ],
+                colors: ['#00a3d8', '#2fbbe8', '#72cae7']
+            });
+
+        })
+
+    </script>
+</asp:Content>
+
