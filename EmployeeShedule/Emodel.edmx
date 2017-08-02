@@ -269,6 +269,18 @@ warning 6002: The table/view 'DB.dbo.BREAKSS' does not have a primary key define
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_EMPLOYEE_TEAM">
+          <End Role="TEAM" Type="Self.TEAM" Multiplicity="0..1" />
+          <End Role="EMPLOYEE" Type="Self.EMPLOYEE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TEAM">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EMPLOYEE">
+              <PropertyRef Name="TeamID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="DBModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
@@ -316,6 +328,10 @@ warning 6002: The table/view 'DB.dbo.BREAKSS' does not have a primary key define
           <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EMPLOYEE_TEAM" Association="Self.FK_EMPLOYEE_TEAM">
+            <End Role="TEAM" EntitySet="TEAM" />
+            <End Role="EMPLOYEE" EntitySet="EMPLOYEE" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -421,6 +437,7 @@ warning 6002: The table/view 'DB.dbo.BREAKSS' does not have a primary key define
           <Property Name="IsSupervisor" Type="Boolean" Nullable="false" />
           <Property Name="ImageByte" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="AspNetUsers" Relationship="DBModel.FK_AspNetUsers_EMPLOYEE" FromRole="EMPLOYEE" ToRole="AspNetUser" />
+          <NavigationProperty Name="TEAM" Relationship="DBModel.FK_EMPLOYEE_TEAM" FromRole="EMPLOYEE" ToRole="TEAM" />
         </EntityType>
         <EntityType Name="LOCATION">
           <Key>
@@ -481,6 +498,7 @@ warning 6002: The table/view 'DB.dbo.BREAKSS' does not have a primary key define
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TeamName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="EMPLOYEEs" Relationship="DBModel.FK_EMPLOYEE_TEAM" FromRole="TEAM" ToRole="EMPLOYEE" />
         </EntityType>
         <EntityType Name="USER">
           <Key>
@@ -584,6 +602,10 @@ warning 6002: The table/view 'DB.dbo.BREAKSS' does not have a primary key define
             <End Role="EMPLOYEE" EntitySet="EMPLOYEEs" />
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <AssociationSet Name="FK_EMPLOYEE_TEAM" Association="DBModel.FK_EMPLOYEE_TEAM">
+            <End Role="TEAM" EntitySet="TEAMs" />
+            <End Role="EMPLOYEE" EntitySet="EMPLOYEEs" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="FK_AspNetUsers_EMPLOYEE">
           <End Type="DBModel.EMPLOYEE" Role="EMPLOYEE" Multiplicity="0..1" />
@@ -594,6 +616,18 @@ warning 6002: The table/view 'DB.dbo.BREAKSS' does not have a primary key define
             </Principal>
             <Dependent Role="AspNetUser">
               <PropertyRef Name="EmpId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EMPLOYEE_TEAM">
+          <End Type="DBModel.TEAM" Role="TEAM" Multiplicity="0..1" />
+          <End Type="DBModel.EMPLOYEE" Role="EMPLOYEE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TEAM">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EMPLOYEE">
+              <PropertyRef Name="TeamID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>

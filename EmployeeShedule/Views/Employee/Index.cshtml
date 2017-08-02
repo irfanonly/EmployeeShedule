@@ -1,4 +1,5 @@
 ﻿
+@model IQueryable<EMPLOYEE>
 
     <div class="breadcrumbs">
         <ol class="breadcrumb">
@@ -40,33 +41,37 @@
                         <div class="form-group col-md-6">
                             <label for="txt_FName" class="col-sm-4 control-label">First Name</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" value="" name="txt_FName" id="txt_FName" />
+                                @*<input type="text" class="form-control" value="" name="txt_FName" id="txt_FName" />*@
+                                @Html.TextBox("firstname", null, new { @class = "form-control" });
                             </div>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="txt_FName" class="col-sm-4 control-label">Last Name</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" value="" name="txt_FName" id="txt_LName" />
+                                @*<input type="text" class="form-control" value="" name="txt_FName" id="txt_LName" />*@
+                                @Html.TextBox("lastname", null, new { @class = "form-control" });
                             </div>
                         </div>
                         <div class="clearfix"></div>
                         <div class="form-group col-md-6">
                             <label for="txt_UName" class="col-sm-4 control-label">E Mail</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" value="" name="txt_Email" id="txt_Email" />
+                                @*<input type="text" class="form-control" value="" name="txt_Email" id="txt_Email" />*@
+                                @Html.TextBox("email", null, new { @class = "form-control" });
                             </div>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="txt_MNum" class="col-sm-4 control-label">Mobile Number</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" value="" name="txt_Mnum" id="txt_Mnum" />
+                                @*<input type="text" class="form-control" value="" name="txt_Mnum" id="txt_Mnum" />*@
+                                @Html.TextBox("mobilenumber", null, new { @class = "form-control" });
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div class="col-sm-12">
                                 <input type="hidden" class="btn btn-primary" style="float:right;clear:both" name="act" value="search" />
-                                <input type="submit" class="btn btn-primary" style="float:right;clear:both" name="Add Employee" value="Add Employee" />
+                                <input type="button" class="btn btn-primary" style="float:right;clear:both" name="Add Employee" value="Add Employee" />
                                 <input type="submit" class="btn btn-primary" style="float:right;margin-right:5px;" name="sendbut" value="Filter" />
                             </div>
                         </div>
@@ -88,7 +93,23 @@
                                     <th>Supervisior</th>
                                 </tr>
                             </thead>
-                            <tbody></tbody>
+                            <tbody>
+                                @foreach(var emp in Model)
+                                {
+                                    <tr>
+                                        <td>@emp.ID</td>
+                                        <td>@emp.FirstName</td>
+                                        <td>@emp.LastName</td>
+                                        <td>@(emp.TeamID == null ? "": emp.TEAM.TeamName)</td>
+                                        <td>@emp.Email</td>
+                                        <td>@emp.MobileNo</td>
+                                        <td>@emp.OfficeExitNo</td>
+                                        <td>@emp.Active</td>
+                                        <td>@emp.IsSupervisor</td>
+                                    </tr>
+                                    
+                                }
+                            </tbody>
                         </table>
                     </div>
                 </section>

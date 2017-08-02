@@ -28,6 +28,7 @@
         <AssociationConnector Association="DBModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="DBModel.AspNetUserRoles" ManuallyRouted="false" />
         <AssociationConnector Association="DBModel.FK_AspNetUsers_EMPLOYEE" />
+        <AssociationConnector Association="DBModel.FK_EMPLOYEE_TEAM" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

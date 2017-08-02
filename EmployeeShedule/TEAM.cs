@@ -14,7 +14,16 @@ namespace SafeMode
     
     public partial class TEAM
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public TEAM()
+        {
+            this.EMPLOYEEs = new HashSet<EMPLOYEE>();
+        }
+    
         public int ID { get; set; }
         public string TeamName { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EMPLOYEE> EMPLOYEEs { get; set; }
     }
 }

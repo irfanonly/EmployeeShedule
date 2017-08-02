@@ -15,7 +15,11 @@ namespace SafeMode.Controllers
         {
             var teams = db.TEAMs;
             ViewBag.teamid = new SelectList(teams, "ID", "TeamName");
-            return View();
+
+            var emp = db.EMPLOYEEs;
+
+
+            return View(emp);
         }
     }
 }
