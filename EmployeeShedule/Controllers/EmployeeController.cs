@@ -46,5 +46,29 @@ namespace SafeMode.Controllers
 
             return View(emp);
         }
+
+        public ActionResult Create()
+        {
+            var teams = db.TEAMs;
+            ViewBag.TeamID = new SelectList(teams, "ID", "TeamName");
+            
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Create(EMPLOYEE model)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                var teams = db.TEAMs;
+                ViewBag.TeamID = new SelectList(teams, "ID", "TeamName");
+
+                return View(model);
+            }
+
+
+            return View(model);
+        }
     }
 }
