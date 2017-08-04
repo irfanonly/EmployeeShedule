@@ -147,54 +147,132 @@ namespace SafeMode.Controllers
 
 
         // GET: /Account/Register
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public ActionResult RegisterUser()
         {
+            var teams = db.TEAMs;
+            ViewBag.TeamID = new SelectList(teams, "ID", "TeamName");
             return View();
         }
 
         [HttpPost]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         // [ValidateAntiForgeryToken]
         public async Task<ActionResult> RegisterUser(RegisterViewModel model)
         {
-            if (db.AspNetUsers.Where(x => x.Name == model.Name).Any())
+            if (!String.IsNullOrEmpty(model.UserName) && String.IsNullOrEmpty(model.Password))
             {
-                ModelState.AddModelError("Name","Name/ Company Name already exists");
+                ModelState.AddModelError("", "Password is required");
             }
+
+            if (String.IsNullOrEmpty(model.UserName) && !String.IsNullOrEmpty(model.Password))
+            {
+                ModelState.AddModelError("","Username is required");
+            }
+            if (!ModelState.IsValid)
+            {
+                var teams = db.TEAMs;
+                ViewBag.TeamID = new SelectList(teams, "ID", "TeamName");
+
+                return View(model);
+            }
+
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.UserName };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                if(!String.IsNullOrEmpty(model.UserName) && !String.IsNullOrEmpty(model.Password))
+                {
+                    var user = new ApplicationUser { UserName = model.UserName };
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+
+
+                        // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                        // Send an email with this link
+                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                        var currentUser = UserManager.FindByName(user.UserName);
+
+
+                        var roleresult = UserManager.AddToRole(currentUser.Id, "not used");
+
+                        byte[] buffer = null;
+                        if (model.Image != null && model.Image.ContentLength > 0)
+                        {
+
+                            buffer = new Byte[model.Image.ContentLength];
+                            model.Image.InputStream.Read(buffer, 0, model.Image.ContentLength);
+                        }
+
+
+                        var emp = new EMPLOYEE
+                        {
+                            Active = model.Active,
+                            Email = model.Email,
+                            ImageByte = buffer,
+                            IsSupervisor = model.IsSupervisor,
+                            FirstName = model.FirstName,
+                            LastName = model.LastName,
+                            MobileNo = model.MobileNo,
+                            OfficeExitNo = model.OfficeExitNo,
+                            TeamID = model.TeamID
+                        };
+
+                        db.EMPLOYEEs.Add(emp);
+                        db.SaveChanges();
+
+                        var entEmpId = db.EMPLOYEEs.Max(x => x.ID);
+
+                        // update userdetails
+                        var cUser = db.AspNetUsers.Where(x => x.Id == currentUser.Id).FirstOrDefault();
+
+                        cUser.DateCreated = DateTime.Now;
+                        cUser.EmpId = entEmpId;
+                        cUser.Email = model.Email;
+                        cUser.PhoneNumber = model.MobileNo;
+                        
+
+                        db.SaveChanges();
+                        //await SignInAsync(user, isPersistent: false);
+                        //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        TempData["Succuss"] = "Successfully employee added";
+                        return RedirectToAction("Index", "Employee");
+                    }
+                    AddErrors(result);
+                }
+                else
                 {
 
+                    byte[] buffer = null;
+                    if (model.Image != null && model.Image.ContentLength > 0)
+                    {
+                       
+                        buffer = new Byte[model.Image.ContentLength];
+                        model.Image.InputStream.Read(buffer, 0, model.Image.ContentLength);
+                    }
 
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    var emp = new EMPLOYEE
+                    {
+                        Active = model.Active,
+                        Email = model.Email,
+                        ImageByte = buffer,
+                        IsSupervisor = model.IsSupervisor,
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        MobileNo = model.MobileNo,
+                        OfficeExitNo = model.OfficeExitNo,
+                        TeamID = model.TeamID
+                    };
 
-                    var currentUser = UserManager.FindByName(user.UserName);
-
-
-                    var roleresult = UserManager.AddToRole(currentUser.Id, "user");
-
-                    // update userdetails
-                    var cUser = db.AspNetUsers.Where(x => x.Id == currentUser.Id).FirstOrDefault();
-
-                    cUser.Email = model.Email;
-                    cUser.Name = model.Name;
-                    cUser.PhoneNumber = model.PhoneNumber;
-
+                    db.EMPLOYEEs.Add(emp);
                     db.SaveChanges();
-                    //await SignInAsync(user, isPersistent: false);
-                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                    TempData["Succuss"] = "Successfully user added";
-                    return RedirectToAction("Index", "ManageUser");
+
+                    TempData["Succuss"] = "Successfully employee added";
+                    return RedirectToAction("Index", "Employee");
                 }
-                AddErrors(result);
+               
             }
 
             // If we got this far, something failed, redisplay form

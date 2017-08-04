@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 
 namespace SafeMode.Models
 {
@@ -65,26 +67,32 @@ namespace SafeMode.Models
     public class RegisterViewModel
     {
 
-        [Required]
-        [Display(Name = "Name/ Company Name")]
-        public string Name { get; set; }
+        [Required(ErrorMessage ="First Name is required")]
+        public string FirstName { get; set; }
+        [Required(ErrorMessage = "Last Name is required")]
+        public string LastName { get; set; }
+
+        [Required(ErrorMessage = "Team is required")]
+        public Nullable<int> TeamID { get; set; }
+        [Required(ErrorMessage = "Email is required")]
+        public string Email { get; set; }
+
+        public string MobileNo { get; set; }
+
+        public string OfficeExitNo { get; set; }
+
+        public bool Active { get; set; }
+
+        public bool IsSupervisor { get; set; }
+
+        //public byte[] ImageByte { get; set; }
+        public HttpPostedFileBase Image { get; set; }
 
 
-        [Required]
         [Display(Name = "Username")]
         public string UserName { get; set; }
 
-        [Required]
-        [Display(Name = "Contact No")]
-        public string PhoneNumber { get; set; }
-
-
-        [Required]
-        //[EmailAddress]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
-
-        [Required]
+       
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]

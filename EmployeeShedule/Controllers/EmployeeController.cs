@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SafeMode.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -56,7 +57,7 @@ namespace SafeMode.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(EMPLOYEE model)
+        public ActionResult Create(RegisterViewModel model)
         {
 
             if (!ModelState.IsValid)
