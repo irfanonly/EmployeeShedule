@@ -386,6 +386,7 @@
       <DependentUpon>DB.mdf</DependentUpon>
     </Content>
     <Content Include="DB\DB.mdf" />
+    <Content Include="DB\script-8-5-17.sql" />
     <Content Include="Emodel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Emodel.edmx</DependentUpon>
