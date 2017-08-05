@@ -71,5 +71,53 @@ namespace SafeMode.Controllers
 
             return View(model);
         }
+
+        public ActionResult Edit()
+        {
+            var teams = db.TEAMs;
+            ViewBag.TeamID = new SelectList(teams, "ID", "TeamName");
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Edit(EditEmployeeViewModel model)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                var teams = db.TEAMs;
+                ViewBag.TeamID = new SelectList(teams, "ID", "TeamName");
+
+                TempData["Error"] = "First Name, Last Name, Email, Team are required";
+                return RedirectToAction("Index","Employee",null);
+            }
+
+            try
+            {
+                var emp = db.EMPLOYEEs.Find(model.ID);
+                emp.FirstName = model.FirstName;
+                emp.LastName = model.LastName;
+                emp.TeamID = model.TeamID;
+                emp.Email = model.Email;
+                emp.MobileNo = model.MobileNo;
+                emp.OfficeExitNo = model.OfficeExitNo;
+                emp.IsSupervisor = model.IsSupervisor;
+                emp.Active = model.Active;
+
+
+                db.SaveChanges();
+                TempData["Success"] = "Successfully employee updated";
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = "Failed to update the record.";
+            }
+            
+
+           
+            return RedirectToAction("Index", "Employee", null);
+        }
+
     }
 }

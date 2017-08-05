@@ -104,6 +104,46 @@ namespace SafeMode.Models
         public string ConfirmPassword { get; set; }
     }
 
+    public class EditEmployeeViewModel
+    {
+        public int ID { get; set; }
+        [Required(ErrorMessage = "First Name is required")]
+        public string FirstName { get; set; }
+        [Required(ErrorMessage = "Last Name is required")]
+        public string LastName { get; set; }
+
+        [Required(ErrorMessage = "Team is required")]
+        public Nullable<int> TeamID { get; set; }
+        [Required(ErrorMessage = "Email is required")]
+        public string Email { get; set; }
+
+        public string MobileNo { get; set; }
+
+        public string OfficeExitNo { get; set; }
+
+        public bool Active { get; set; }
+
+        public bool IsSupervisor { get; set; }
+
+        //public byte[] ImageByte { get; set; }
+        //public HttpPostedFileBase Image { get; set; }
+
+
+        //[Display(Name = "Username")]
+        //public string UserName { get; set; }
+
+
+        //[StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        //[DataType(DataType.Password)]
+        //[Display(Name = "Password")]
+        //public string Password { get; set; }
+
+        //[DataType(DataType.Password)]
+        //[Display(Name = "Confirm password")]
+        //[Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        //public string ConfirmPassword { get; set; }
+    }
+
     public class ResetPasswordViewModel
     {
         [Required]

@@ -264,6 +264,18 @@ warning 6002: The table/view 'DB.dbo.BREAKSS' does not have a primary key define
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_EMPLOYEE_TEAM">
+    <End Role="TEAM" Type="Self.TEAM" Multiplicity="0..1" />
+    <End Role="EMPLOYEE" Type="Self.EMPLOYEE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TEAM">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="EMPLOYEE">
+        <PropertyRef Name="TeamID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="DBModelStoreContainer">
     <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
@@ -311,6 +323,10 @@ warning 6002: The table/view 'DB.dbo.BREAKSS' does not have a primary key define
     <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
       <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EMPLOYEE_TEAM" Association="Self.FK_EMPLOYEE_TEAM">
+      <End Role="TEAM" EntitySet="TEAM" />
+      <End Role="EMPLOYEE" EntitySet="EMPLOYEE" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

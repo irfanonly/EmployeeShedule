@@ -269,7 +269,7 @@ namespace SafeMode.Controllers
                     db.EMPLOYEEs.Add(emp);
                     db.SaveChanges();
 
-                    TempData["Succuss"] = "Successfully employee added";
+                    TempData["Success"] = "Successfully employee added";
                     return RedirectToAction("Index", "Employee");
                 }
                
@@ -562,12 +562,12 @@ namespace SafeMode.Controllers
 
         //
         // POST: /Account/LogOff
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         //

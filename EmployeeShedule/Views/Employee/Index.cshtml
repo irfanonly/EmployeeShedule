@@ -29,6 +29,15 @@
                     </div>--%>*@
                     <!-- /tile header -->
                     <div class="tile-body nopadding">
+                        @if (TempData["Error"] != null)
+                        {
+                            <label for="" class="col-sm-6 label-danger" id="lblInfo">@TempData["error"] </label>
+                        }
+                        @if (TempData["Success"] != null)
+                        {
+                            <label for="" class="col-sm-6 label-success" id="lblInfo">@TempData["Success"] </label>
+                        }
+                        
 @using (Html.BeginForm())
 {
                         <div class="form-group col-md-12">
@@ -99,7 +108,7 @@
                             <tbody>
                                 @foreach(var emp in Model)
                                 {
-                                    <tr>
+                                    <tr id="@emp.ID" onclick=ShowAddUpdateDialog('@emp.ID')>
                                         <td>@emp.ID</td>
                                         <td>@emp.FirstName</td>
 
@@ -110,6 +119,7 @@
                                         <td>@emp.OfficeExitNo</td>
                                         <td>@emp.Active</td>
                                         <td>@emp.IsSupervisor</td>
+                                        <td hidden>@emp.TeamID</td>
                                     </tr>
                                     
                                 }
@@ -121,58 +131,41 @@
         </div>
     </div>
 
-    @*<script>
-        $('document').ready(function () {
-
-            $.ajax({
-                type: "POST",
-                url: "Employees.aspx/SetEmployeeTable",
-                data: "{}",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: onsuccessemployee,
-                error: onerror
-
-            });
-            function onsuccessemployee(data) {
-
-                var data1 = data.d;
-                var html = "";
-                if (data1.length > 0)
-                {
-                    for (i = 0; i < data1.length; i++)
-                    {
-                        html += "<tr id=" + data1[i].ID + "><td>" + (i + 1) + "</td><td>" + data1[i].FirstName + "</td><td>" + data1[i].LastName + "</td><td>" + data1[i].TeamName + "</td><td>" + data1[i].Email + "</td>";
-                        html += "<td>" + data1[i].MobileNo + "</td><td>" + data1[i].OfficeExitNo + "</td>";
-
-                        if (data1[i].Active)
-                        {
-                            html += "<td><input type='checkbox' id='chk_active" + i + "' checked='checked' disbaled='disabled'></td>";
-                        }
-                        else
-                        {
-                            html += "<td><input type='checkbox' id='chk_active" + i + "'  disbaled='disabled'></td>";
-                        }
-                        if (data1[i].SuperVisor)
-                        {
-                            html += "<td><input type='checkbox' id='chk_SuperVisor" + i + "' checked='checked' disbaled='disabled'></td>";
-                        }
-                        else
-                        {
-                            html += "<td><input type='checkbox' id='chk_SuperVisor" + i + "'  disbaled='disabled'></td>";
-                        }
-                        //html+="<td>" + data1[i].SuperVisor + "</td></tr>";
-                    }
-                }
-                $('#employeeTable tbody').append(html);
-            }
-
-            function onerror()
-            {
-                alert('error');
-            }
-        });
-    </script>*@
+@Html.Partial("Edit", new SafeMode.Models.EditEmployeeViewModel())
 
 
+<script>
+
+
+
+
+                   function onerror() {
+                       alert('error');
+                   }
+                   function ShowAddUpdateDialog(id) {
+                       $('#myModal').modal({ show: 'true' });
+                       //var td = $(this);
+                       $('#ID').val(id);
+                       $('#FirstName').val($('#'+id+' td:eq(1)').text());
+                       $('#LastName').val($('#' + id + ' td:eq(2)').text());
+                       $('#Email').val($('#' + id + ' td:eq(4)').text());
+                       $('#MobileNo').val($('#' + id + ' td:eq(5)').text());
+                       $('#OfficeExitNo').val($('#' + id + ' td:eq(6)').text());
+                       if ($('#' + id + ' td:eq(7)').text() === 'True') {
+                           $('#IsSupervisor').prop('checked',true);
+                       } else {
+                           $('#IsSupervisor').prop('checked', false);
+                       }
+                       //$('#IsSupervisor').val($('#' + id + ' td:eq(7)').text());
+                       if ($('#' + id + ' td:eq(8)').text() === 'True') {
+                           $('#Active').prop('checked', true);
+                       } else {
+                           $('#Active').prop('checked', false);
+                       }
+                       //$('#Active').val($('#' + id + ' td:eq(8)').text());
+                       $('#TeamID').val($('#' + id + ' td:eq(9)').text());
+                   }
+
+
+</script>
 
