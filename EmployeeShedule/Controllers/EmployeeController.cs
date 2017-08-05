@@ -1,6 +1,7 @@
 ﻿using SafeMode.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -17,7 +18,7 @@ namespace SafeMode.Controllers
             var teams = db.TEAMs;
             ViewBag.teamid = new SelectList(teams, "ID", "TeamName");
 
-            var emp = db.EMPLOYEEs.AsQueryable();
+            var emp = db.EMPLOYEEs.AsQueryable().Include(x => x.TEAM);
 
             if (teamid != null)
             {
