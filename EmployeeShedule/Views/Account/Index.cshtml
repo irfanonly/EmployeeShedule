@@ -1,0 +1,327 @@
+﻿
+<style>
+    .main {
+        background-color: #fff !important;
+    }
+</style>
+<div class="breadcrumbs">
+    <ol class="breadcrumb">
+        <li><a href="~/Admin/Index"><i class="fa fa-home"></i>Dashboard</a></li>
+        <li class="active">Account</li>
+    </ol>
+</div>
+<div class="main">
+    <!-- row -->
+    <div class="row">
+
+        <!-- col 12 -->
+        <div class="col-md-12">
+            <!-- tile -->
+            <section class="tile cornered">
+
+                <!-- tile header -->
+                <div class="tile-header">
+                    <h1><strong>Accounts </strong></h1>
+                </div>
+
+                <div class="tile-header">
+                    <a href="AddAccount.aspx">Add New Account</a>
+                </div>
+                <!-- /tile header -->
+
+@using (Html.BeginForm())
+{
+    <div class="form-group col-md-6">
+        <label for="txt_FName" class="col-sm-4 control-label">First Name</label>
+        <div class="col-sm-8">
+            @*<input type="text" class="form-control" value="" name="txt_FName" id="txt_FName" />*@
+            @Html.TextBox("firstname", null, new { @class = "form-control" })
+        </div>
+    </div>
+                <div class="form-group col-md-6">
+                    <label for="txt_FName" class="col-sm-4 control-label">Last Name</label>
+                    <div class="col-sm-8">
+                        @*<input type="text" class="form-control" value="" name="txt_FName" id="txt_LName" />*@
+                        @Html.TextBox("lastname", null, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group col-md-6">
+                    <label for="txt_UName" class="col-sm-4 control-label">User Name</label>
+                    <div class="col-sm-8">
+                        @*<input type="text" class="form-control" value="" name="txt_UName" id="txt_UName" />*@
+                        @Html.TextBox("username", null, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-2">
+                        <input type="hidden" class="btn btn-primary" name="act" value="search" />
+                        <input type="button" class="btn btn-primary" name="sendbut" value="Filter" onclick="searchfilter();" />
+                        <input type="submit" class="btn btn-primary" name="sendbut" value="Show All" onclick="showAll();" />
+                    </div>
+                </div>
+}
+
+
+                <div class="clearfix"></div>
+
+                <!-- tile body -->
+                <div class="tile-body nopadding">
+                    <table class="table" id="employeeTable">
+                        <thead>
+                            <tr>
+                                <th>Sr #</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>User Name</th>
+                                <th>Is Supervisior</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Change Password</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row margin-15">
+                    <div class="col-sm-4">
+                        <label for="" class="control-label">First Name</label>
+                    </div>
+                    <div class="col-sm-8 disabled">
+                        <input type="text" id="txt_Fname" disabled="disabled" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="row margin-15">
+                    <div class="col-sm-4">
+                        <label for="" class="control-label">Last Name</label>
+                    </div>
+                    <div class="col-sm-8 disabled">
+                        <input type="text" id="txt_Lname" disabled="disabled" class="form-control" />
+                    </div>
+                </div>
+
+
+                <div class="row margin-15 " style="display:none">
+                    <div class="col-sm-4">
+                        <label for="input01" class="control-label">Team Name</label>
+                    </div>
+                    <div class="col-sm-8 disabled">
+                        <input type="text" id="team_id" disabled="disabled" class="form-control" />
+                    </div>
+
+                </div>
+                <div class="row margin-15">
+                    <div class="col-sm-4">
+
+                        <label for="" class="control-label">User Name</label>
+                    </div>
+                    <div class="col-sm-8 disabled">
+                        <input type="text" id="txt_userName" disabled="disabled" class="form-control" />
+                    </div>
+                </div>
+                <div class="row margin-15">
+                    <div class="col-sm-4">
+
+                        <label for="" class="control-label">Password</label>
+                    </div>
+                    <div class="col-sm-8">
+                        <input type="password" id="cur_password" class="form-control" />
+                    </div>
+                </div>
+                <div class="row margin-15">
+                    <div class="col-sm-4">
+
+                        <label for="" class="control-label">New Password</label>
+                    </div>
+                    <div class="col-sm-8">
+                        <input type="password" id="txt_password" class="form-control" />
+                    </div>
+                </div>
+                <div class="row margin-15">
+                    <div class="col-sm-4">
+                        <label for="" class="control-label">Confirm Password</label>
+                    </div>
+                    <div class="col-sm-8">
+                        <input type="password" id="txt_ConfirmPassword" class="form-control" />
+                    </div>
+                </div>
+            </div>
+
+            <%--     <div class="row margin-b20">
+                <div class="col-sm-4">
+                    <label for="datepicker">Select Date</label>
+                </div>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="datepicker2" runat="server" /><br />
+                </div>
+            </div>
+            <div class="row margin-b20">
+                <div class="col-sm-4">
+                    <label for="sel_employee">Select Employee</label>
+                </div>
+                <div class="col-sm-8">
+                    <select class="form-control" id="sel_employee"></select><br />
+                </div>
+            </div>
+            <div class="row margin-b20">
+                <div class="col-sm-4">
+                    <label>Name</label>
+                </div>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="title" name="name" value="" /><br />
+                </div>
+            </div>
+            <div class="row margin-b20">
+                <div class="col-sm-3">
+                    <label>From </label>
+                </div>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" id="txt_hours" value="" />
+
+                </div>
+                <div class="col-sm-3">
+                    <label>To </label>
+                </div>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" id="txt_Mins" value="" />
+                </div>
+
+            </div>
+        </div>--%>
+        <div class="modal-footer">
+            <div class="col-sm-6">
+                <input class="btn btn-primary" name="sendbut" value="Add/Update" type="submit" onclick="validate()" />
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<input type="text" id="hdn_id" style="display:none" />
+
+<script>
+                   $('document').ready(function () {
+                       getUserInfo();
+                   });
+                   function showAll() {
+                       getUserInfo();
+                   }
+                   function searchfilter() {
+                       var firstName = $('#txt_FName').val();
+                       var LastName = $('#txt_LName').val();
+                       var UserName = $('#txt_UName').val();
+
+                       $.ajax({
+                           type: "POST",
+                           url: "AccountsView.aspx/filter",
+                           data: "{firstName:'" + firstName + "',LastName:'" + LastName + "',UserName:'" + UserName + "'}",
+                           contentType: "application/json; charset=utf-8",
+                           dataType: "json",
+                           success: onsuccessemployee,
+                           error: onerror
+
+                       });
+                   }
+                   function getUserInfo() {
+                       $.ajax({
+                           type: "POST",
+                           url: "AccountsView.aspx/SetUsersTable",
+                           data: "{}",
+                           contentType: "application/json; charset=utf-8",
+                           dataType: "json",
+                           success: onsuccessemployee,
+                           error: onerror
+
+                       });
+
+                   }
+                   function onsuccessemployee(data) {
+
+                       var data1 = data.d;
+                       var html = "";
+                       if (data1.length > 0) {
+                           for (i = 0; i < data1.length; i++) {
+                               html += "<tr id=" + data1[i].ID + " onclick=ShowAddUpdateDialog('" + data1[i].ID + "')><td>" + (i + 1) + "</td><td>" + data1[i].FirstName + "</td><td>" + data1[i].LastName + "</td><td>" + data1[i].Username + "</td>";
+
+
+                           }
+                       }
+                       $('#employeeTable tbody').html(html);
+                   }
+                   function onerror() {
+                       alert('error');
+                   }
+                   function ShowAddUpdateDialog(id) {
+                       $('#myModal').modal({ show: 'true' });
+                       var td = $('#' + id);
+                       $('#hdn_id').val(id);
+                       $('#txt_Fname').val($('#' + id + ' td:eq(1)').text());
+                       $('#txt_Lname').val($('#' + id + ' td:eq(2)').text());
+                       $('input[id$=team_id]').val($('#' + id + ' td:eq(4)').text());
+                       $('input[id$=txt_userName]').val($('#' + id + ' td:eq(3)').text());
+
+                   }
+                   function validate() {
+                       var id = $('#hdn_id').val();
+                       if ($('#txt_password').val() != $('#txt_ConfirmPassword').val()) {
+                           alert("PASSWORD DOESNT MATCH!");
+                           return false;
+                       }
+                       else if ($('#txt_password').val() == '' || $('#txt_ConfirmPassword').val() == '' || $('#cur_password').val() == '') {
+                           alert("Enter Password");
+                           return false;
+                       }
+
+                       else if ($('#txt_password').val().Length < 4 || $('#txt_password').val().Length > 20) {
+                           alert("Password must be between 4 to 20 characters");
+                           return false;
+                       }
+                       //else if ($('#txt_password').val() != $('#txt_ConfirmPassword').val()) {
+                       //     alert("PASSWORD DOESNT MATCH!");
+                       //     return false;
+                       //}
+                       else {
+                           UpdatePassword($('#txt_password').val(), $('#cur_password').val(), id);
+                       }
+
+                   }
+                   function UpdatePassword(pass, txtcurrPass, id) {
+                       $.ajax({
+                           type: "POST",
+                           url: "AccountsView.aspx/UpdatePassword",
+                           data: "{txtPass:'" + pass + "',txtcurrPass:'" + txtcurrPass + "',lblUserID:'" + id + "'}",
+                           contentType: "application/json; charset=utf-8",
+                           dataType: "json",
+                           success: onSuccessPassUpdate,
+                           error: onerror
+
+                       });
+                       function onSuccessPassUpdate(data) {
+                           var data = data.d;
+
+                           alert(data);
+                           if (data == "Password changed successfully") {
+                               $('#myModal').modal('hide');
+                               $('#hdn_id').val('');
+                               $('#txt_Fname').val('');
+                               $('#txt_Lname').val('');
+                               $('input[id$=team_id]').val('');
+                               $('input[id$=txt_userName]').val('');
+
+                           }
+                       }
+                   }
+</script>

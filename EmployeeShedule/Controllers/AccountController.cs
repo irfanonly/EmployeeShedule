@@ -54,6 +54,13 @@ namespace SafeMode.Controllers
             }
         }
 
+
+        public ActionResult Index()
+        {
+            
+            return View();
+        }
+
         //
         // GET: /Account/Login
         [AllowAnonymous]
