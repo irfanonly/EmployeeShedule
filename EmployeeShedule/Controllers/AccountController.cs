@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using SafeMode.Models;
+using System.Data.Entity;
 
 namespace SafeMode.Controllers
 {
@@ -55,9 +56,35 @@ namespace SafeMode.Controllers
         }
 
 
-        public ActionResult Index()
+        public ActionResult Index(string firstname, string lastname,string username)
         {
-            
+            var acc = db.AspNetUsers.AsQueryable().Include(x => x.EMPLOYEE);
+
+            if (!String.IsNullOrEmpty(firstname))
+            {
+                acc = acc.Where(x => x.EMPLOYEE.FirstName.Contains(firstname));
+            }
+            if (!String.IsNullOrEmpty(lastname))
+            {
+                acc = acc.Where(x => x.EMPLOYEE.LastName.Contains(lastname));
+            }
+            if (!String.IsNullOrEmpty(username))
+            {
+                acc = acc.Where(x => x.UserName.Contains(username));
+            }
+            return View(acc);
+        }
+
+        public ActionResult Edit()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Edit(EditAccountViewModel model)
+        {
+
             return View();
         }
 
